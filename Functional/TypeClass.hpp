@@ -197,4 +197,39 @@ namespace TypeClass {
 			return f->apply(a.data);
 		}
 	};
+
+	template<template<typename>typename M, typename R, typename Arg>
+	inline static R fmap(const Functional::Applyable<R, Arg> *f, M<Arg> arg) {
+		return Functor<M>::fmap(f, arg);
+	}
+
+	template<template<typename>typename M, typename Arg>
+	inline static M<Arg> pure(Arg arg) {
+		return Applicative<M>::pure(arg);
+	}
+
+	template<template<typename>typename M, typename R, typename Arg>
+	inline static M<R> applicative(M<const Functional::Applyable<R, Arg>*> f, M<Arg> arg) {
+		return Applicative<M>::applicative(f, arg);
+	}
+
+	template<template<typename>typename M, typename Arg>
+	inline static M<Arg> unit(Arg arg) {
+		return Monad<M>::unit(arg);
+	}
+
+	template<template<typename>typename M, typename A, typename B>
+	inline static M<B> bind(const Functional::Applyable<M<B>, A> *f, M<A> a) {
+		return Monad<M>::bind(f, a);
+	}
+
+	template<template<typename>typename M, typename A, typename B>
+	inline static M<B> bindVal(M<B> b, M<A> a) {
+		return Monad<M>::bindVal(b, a);
+	}
+
+	template<template<typename>typename M, typename B, typename A>
+	inline static M<B> bindFunc(const Functional::Applyable<B, A> *f, M<A> a) {
+		return Monad<M>::bindFunc(f, a);
+	}
 }
