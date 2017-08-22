@@ -122,7 +122,7 @@ namespace TypeClass {
 	class Default<Applicative<M>> : public Functor<M> {};
 
 	template<>
-	class Applicative<Maybe> : public Default< Applicative<Maybe>> {
+	class Applicative<Maybe> : public Default<Applicative<Maybe>> {
 	public:
 		template<typename Arg>
 		inline static Maybe<Arg> pure(Arg arg) {
@@ -137,7 +137,7 @@ namespace TypeClass {
 	};
 
 	template<>
-	class Applicative<IO> : public Default< Applicative<IO>> {
+	class Applicative<IO> : public Default<Applicative<IO>> {
 	public:
 		template<typename Arg>
 		inline static IO<Arg> pure(Arg arg) {
