@@ -105,11 +105,11 @@ namespace Functional {
 		virtual CurryApplyable<R, Arg2, Args...>* newCurryApplyable(Arg1) const = 0;
 	};
 
-	template<typename, bool, typename, typename, typename, typename...>
+	template<typename, typename, typename, typename, typename...>
 	class FunctionHolder;
 
 	template<typename F, typename R, typename Arg1, typename Arg2, typename... Args, typename T, typename... Ts>
-	class FunctionHolder<F, true, Tuple<T, Ts...>, R, Arg1, Arg2, Args...> : public Applyable<R, Arg1, Arg2, Args...>, public CurryApplyable<R, Arg1, Arg2, Args...> {
+	class FunctionHolder<F, Tuple<T, Ts...>, R, Arg1, Arg2, Args...> : public Applyable<R, Arg1, Arg2, Args...>, public CurryApplyable<R, Arg1, Arg2, Args...> {
 		F m_f;
 		Tuple<T, Ts...> m_ds;
 
@@ -138,7 +138,7 @@ namespace Functional {
 		}
 
 		auto operator()(Arg1 arg) const {
-			return FunctionHolder<F, true, Tuple<Arg1, T, Ts...>, R, Arg2, Args...>(m_f, Tuple<Arg1, T, Ts...>(arg, m_ds));
+			return FunctionHolder<F, Tuple<Arg1, T, Ts...>, R, Arg2, Args...>(m_f, Tuple<Arg1, T, Ts...>(arg, m_ds));
 		}
 
 		R apply(Arg1 arg1, Arg2 arg2, Args... args) const {
@@ -162,12 +162,12 @@ namespace Functional {
 		}
 
 		CurryApplyable<R, Arg2, Args...>* newCurryApplyable(Arg1 arg) const {
-			return new FunctionHolder<F, true, Tuple<Arg1, T, Ts...>, R, Arg2, Args...>(m_f, Tuple<Arg1, T, Ts...>(arg, m_ds));
+			return new FunctionHolder<F, Tuple<Arg1, T, Ts...>, R, Arg2, Args...>(m_f, Tuple<Arg1, T, Ts...>(arg, m_ds));
 		}
 	};
 
 	template<typename F, typename R, typename Arg1, typename Arg2, typename... Args>
-	class FunctionHolder<F, false, void, R, Arg1, Arg2, Args...> : public Applyable<R, Arg1, Arg2, Args...>, public CurryApplyable<R, Arg1, Arg2, Args...> {
+	class FunctionHolder<F, void, R, Arg1, Arg2, Args...> : public Applyable<R, Arg1, Arg2, Args...>, public CurryApplyable<R, Arg1, Arg2, Args...> {
 		F m_f;
 	public:
 		FunctionHolder(F f) : m_f(f) {}
@@ -183,7 +183,7 @@ namespace Functional {
 		}
 
 		auto operator()(Arg1 arg) const {
-			return FunctionHolder<F, true, Tuple<Arg1>, R, Arg2, Args...>(m_f, Tuple<Arg1>(arg));
+			return FunctionHolder<F, Tuple<Arg1>, R, Arg2, Args...>(m_f, Tuple<Arg1>(arg));
 		}
 
 		R apply(Arg1 arg1, Arg2 arg2, Args... args) const {
@@ -203,12 +203,12 @@ namespace Functional {
 		}
 
 		CurryApplyable<R, Arg2, Args...>* newCurryApplyable(Arg1 arg) const {
-			return new FunctionHolder<F, true, Tuple<Arg1>, R, Arg2, Args...>(m_f, Tuple<Arg1>(arg));
+			return new FunctionHolder<F, Tuple<Arg1>, R, Arg2, Args...>(m_f, Tuple<Arg1>(arg));
 		}
 	};
 
 	template<typename F, typename R, typename Arg, typename T, typename... Ts>
-	class FunctionHolder<F, true, Tuple<T, Ts...>, R, Arg> : public Applyable<R, Arg>, public CurryApplyable<R, Arg> {
+	class FunctionHolder<F, Tuple<T, Ts...>, R, Arg> : public Applyable<R, Arg>, public CurryApplyable<R, Arg> {
 		F m_f;
 		Tuple<T, Ts...> m_ds;
 
@@ -262,7 +262,7 @@ namespace Functional {
 	};
 
 	template<typename F, typename R, typename Arg>
-	class FunctionHolder<F, false, void, R, Arg> : public Applyable<R, Arg>, public CurryApplyable<R, Arg> {
+	class FunctionHolder<F, void, R, Arg> : public Applyable<R, Arg>, public CurryApplyable<R, Arg> {
 		F m_f;
 	public:
 		FunctionHolder(F f) : m_f(f) {}
@@ -321,7 +321,7 @@ namespace Functional {
 
 			template<typename R, typename Arg1, typename... Args>
 			inline static auto apply(C c, R(C::*)(Arg1, Args...) const) {
-				return FunctionHolder<C, false, void, R, Arg1, Args...>(c);
+				return FunctionHolder<C, void, R, Arg1, Args...>(c);
 			}
 		};
 
@@ -340,7 +340,7 @@ namespace Functional {
 			}
 		public:
 			inline static auto apply(const Applyable<R, Arg1, Args...> *f) {
-				return FunctionHolder<R(*)(const Applyable<R, Arg1, Args...>*, Arg1, Args...), false, void, R, const Applyable<R, Arg1, Args...>*, Arg1, Args...>(apply_medthod)(f);
+				return FunctionHolder<R(*)(const Applyable<R, Arg1, Args...>*, Arg1, Args...), void, R, const Applyable<R, Arg1, Args...>*, Arg1, Args...>(apply_medthod)(f);
 			}
 		};
 
@@ -370,7 +370,7 @@ namespace Functional {
 			}
 		public:
 			inline static auto apply(C c, R(C::*f)(Arg1, Args...)) {
-				return FunctionHolder<R(*)(C, R(C::*)(Arg1, Args...), Arg1, Args...), false, void, R, C, R(C::*)(Arg1, Args...), Arg1, Args...>(apply_medthod)(c)(f);
+				return FunctionHolder<R(*)(C, R(C::*)(Arg1, Args...), Arg1, Args...), void, R, C, R(C::*)(Arg1, Args...), Arg1, Args...>(apply_medthod)(c)(f);
 			}
 		};
 
@@ -389,7 +389,7 @@ namespace Functional {
 			}
 		public:
 			inline static auto apply(C *c, R(C::*f)(Arg1, Args...)) {
-				return FunctionHolder<R(*)(C*, R(C::*)(Arg1, Args...), Arg1, Args...), false, void, R, C*, R(C::*)(Arg1, Args...), Arg1, Args...>(apply_medthod)(c)(f);
+				return FunctionHolder<R(*)(C*, R(C::*)(Arg1, Args...), Arg1, Args...), void, R, C*, R(C::*)(Arg1, Args...), Arg1, Args...>(apply_medthod)(c)(f);
 			}
 		};
 
@@ -408,7 +408,7 @@ namespace Functional {
 			}
 		public:
 			inline static auto apply(C c, R(C::*f)(Arg1, Args...) const) {
-				return FunctionHolder<R(*)(C, R(C::*)(Arg1, Args...) const, Arg1, Args...), false, void, R, C, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
+				return FunctionHolder<R(*)(C, R(C::*)(Arg1, Args...) const, Arg1, Args...), void, R, C, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
 			}
 		};
 
@@ -427,7 +427,7 @@ namespace Functional {
 			}
 		public:
 			inline static auto apply(C *c, R(C::*f)(Arg1, Args...) const) {
-				return FunctionHolder<R(*)(C*, R(C::*)(Arg1, Args...) const, Arg1, Args...), false, void, R, C*, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
+				return FunctionHolder<R(*)(C*, R(C::*)(Arg1, Args...) const, Arg1, Args...), void, R, C*, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
 			}
 		};
 
@@ -446,7 +446,7 @@ namespace Functional {
 			}
 		public:
 			inline static auto apply(C c, R(C::*f)(Arg1, Args...) const) {
-				return FunctionHolder<R(*)(C, R(C::*)(Arg1, Args...) const, Arg1, Args...), false, void, R, C, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
+				return FunctionHolder<R(*)(C, R(C::*)(Arg1, Args...) const, Arg1, Args...), void, R, C, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
 			}
 		};
 
@@ -465,7 +465,7 @@ namespace Functional {
 			}
 		public:
 			inline static auto apply(const C *c, R(C::*f)(Arg1, Args...) const) {
-				return FunctionHolder<R(*)(const C*, R(C::*)(Arg1, Args...) const, Arg1, Args...), false, void, R, const C*, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
+				return FunctionHolder<R(*)(const C*, R(C::*)(Arg1, Args...) const, Arg1, Args...), void, R, const C*, R(C::*)(Arg1, Args...) const, Arg1, Args...>(apply_medthod)(c)(f);
 			}
 		};
 	}
@@ -477,7 +477,7 @@ namespace Functional {
 
 	template<typename R, typename Arg1, typename... Args>
 	inline auto curry(R(*f)(Arg1, Args...)) {
-		return FunctionHolder<R(*)(Arg1, Args...), false, void, R, Arg1, Args...>(f);
+		return FunctionHolder<R(*)(Arg1, Args...), void, R, Arg1, Args...>(f);
 	}
 	
 	template<typename T>
@@ -485,8 +485,8 @@ namespace Functional {
 		return Hidden::CurryType<T>::apply(c);
 	}
 
-	template<typename F, bool B, typename D, typename R, typename... Args>
-	inline auto curry(const FunctionHolder<F, B, D, R, Args...> f) {
+	template<typename F, typename D, typename R, typename... Args>
+	inline auto curry(const FunctionHolder<F, D, R, Args...> f) {
 		return f;
 	}
 
