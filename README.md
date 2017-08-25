@@ -43,7 +43,6 @@ int fib(const Applyable<int, int> *f, int i) {
 // Combinator : Y
 // println(Combinator::y(fac)(5));		Print : 120
 // println(Combinator::y(fib)(10));		Print : 55
-// println();
 
 class C {
 	int k;
@@ -71,7 +70,6 @@ println(curry(c1, &C::g)(5)(7));		// Print : 15
 println(curry(c2, &C::g)(5)(7));		// Print : 15
 println(curry(c3, &C::g)(5)(7));		// Print : 15
 println(curry(c4, &C::g)(5)(7));		// Print : 15
-println();
 */
 
 void test() {
@@ -85,7 +83,6 @@ void test() {
 	println(curry(v1));				// Print : 5
 	println(curry(v2));				// Print : asd
 	println(curry(v3));				// Print : ASD
-	println();
 
 	auto l0 = [v0]() { return 5 * v0; };
 	auto l1 = [v0](int i) { return (i * i) * v0; };
@@ -99,23 +96,18 @@ void test() {
 	println(curry(l2)(5)(10));			// Print : 150
 	println(curry(l3)(5)(10)(0.5f));		// Print : 75
 	println(curry(l4)(5)(10)(0.5f)(5.0));		// Print : 525
-	println();
 
 	auto cr0 = curry(f2);
 	Applyable<int, int, int> *a0 = &cr0;
 	
-	// Curry : Curry
-	println(typeid(curry(cr0)).name());		
+	// Curry : Curry	
 	println(curry(cr0)(5)(10));			// Print : 15
-	println();
 	
 	// Curry : Applyable Interface			// Print : 15
 	println(curry(a0)(5)(10));
-	println();
 
 	// Compose Function
 	println(compose(f1, [v0](int i) { return i * 10; })(5));	// Print : 2500
-	println();
 
 	// Tuple
 	auto t = Make::tuple(1, 2.0f, "A");	
