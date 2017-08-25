@@ -1,4 +1,4 @@
-## Example : Functional
+## Example
 ```cpp
 int f0() {
 	return 5;
