@@ -71,7 +71,7 @@ void test() {
 	println(curry(v0));				// Print : 10
 	println(curry(v1));				// Print : 5
 	println(curry(v2));				// Print : asd
-	rintln(curry(v3));				// Print : ASD
+	println(curry(v3));				// Print : ASD
 	println();
 
 	// Curry : Function
