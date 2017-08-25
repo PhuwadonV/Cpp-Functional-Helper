@@ -68,31 +68,31 @@ void test() {
 	const C *c4 = new C(3);
 
 	// Curry : Value
-	println(curry(v0));						// Print : 10
-	println(curry(v1));						// Print : 5
-	println(curry(v2));						// Print : asd
-	rintln(curry(v3));						// Print : ASD
+	println(curry(v0));				// Print : 10
+	println(curry(v1));				// Print : 5
+	println(curry(v2));				// Print : asd
+	rintln(curry(v3));				// Print : ASD
 	println();
 
 	// Curry : Function
-	println(curry(f0));						// Print : 5
-	println(curry(f1)(5));					// Print : 25
-	println(curry(f2)(5)(10));				// Print : 15
+	println(curry(f0));				// Print : 5
+	println(curry(f1)(5));				// Print : 25
+	println(curry(f2)(5)(10));			// Print : 15
 	println(curry(f3)(5)(10)(0.5f));		// Print : 7.5
-	println(curry(f4)(5)(10)(0.5f)(5.0));	// Print : 52.5
+	println(curry(f4)(5)(10)(0.5f)(5.0));		// Print : 52.5
 	println();
 
 	// Curry : Closure
-	println(curry(l0));						// Print : 50
-	println(curry(l1)(5));					// Print : 250
-	println(curry(l2)(5)(10));				// Print : 150
+	println(curry(l0));				// Print : 50
+	println(curry(l1)(5));				// Print : 250
+	println(curry(l2)(5)(10));			// Print : 150
 	println(curry(l3)(5)(10)(0.5f));		// Print : 75
-	println(curry(l4)(5)(10)(0.5f)(5.0));	// Print : 525
+	println(curry(l4)(5)(10)(0.5f)(5.0));		// Print : 525
 	println();
 
 	// Curry : Curry
 	println(typeid(curry(cr0)).name());		
-	println(curry(cr0)(5)(10));				// Print : 15
+	println(curry(cr0)(5)(10));			// Print : 15
 	println();
 
 	// Curry : Applyable Interface			// Print : 15
@@ -119,12 +119,12 @@ void test() {
 
 	// Tuple
 	auto t = Make::tuple(1, 2.0f, "A");	
-	println(t.data);						// Print : 1
-	println(t.next.data);					// Print : 2
-	println(t.next.next.data);				// Print : A
+	println(t.data);				// Print : 1
+	println(t.next.data);				// Print : 2
+	println(t.next.next.data);			// Print : A
 	t.get<2>() = "B";
-	println(t.get<0>());					// Print : 1
-	println(t.get<1>());					// Print : 2
-	println(t.get<2>());					// Print : B
+	println(t.get<0>());				// Print : 1
+	println(t.get<1>());				// Print : 2
+	println(t.get<2>());				// Print : B
 }
 ```
