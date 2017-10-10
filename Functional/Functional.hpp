@@ -3,13 +3,19 @@
 namespace Functional {
 	namespace TMP {
 		template<typename Result>
-		class Evalable {
+		class EvalType {
 		public:
 			using Eval = Result;
 		};
 
+		template<typename Type, Type Result>
+		class EvalVal {
+		public:
+			constexpr static Type Eval = Result;
+		};
+
 		template<typename From, typename To>
-		class Convert : public Evalable<To> {};
+		class Convert : public EvalType<To> {};
 	}
 
 	template<typename...>
