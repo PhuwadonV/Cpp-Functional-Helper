@@ -120,3 +120,4 @@ void test() {
 	println(t.get<2>());				// Print : B
 }
 ```
+![alt text](https://raw.githubusercontent.com/PhuwadonV/Functional/master/Example.png)
