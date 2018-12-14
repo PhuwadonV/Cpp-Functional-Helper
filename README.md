@@ -103,8 +103,8 @@ void test() {
 	// Curry : Curry	
 	println(curry(cr0)(5)(10));			// Print : 15
 	
-	// Curry : Applyable Interface			// Print : 15
-	println(curry(a0)(5)(10));
+	// Curry : Applyable Interface
+	println(curry(a0)(5)(10));			// Print : 15
 
 	// Compose Function
 	println(compose(f1, [v0](int i) { return i * 10; })(5));	// Print : 2500
